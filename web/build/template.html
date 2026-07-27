@@ -1,0 +1,484 @@
+<title>사주도사</title>
+<style>
+:root {
+  --ground: #F1EFF2;
+  --surface: #FBFAFC;
+  --surface-2: #E9E5EC;
+  --ink: #241D28;
+  --ink-soft: #4A4050;
+  --muted: #776C7E;
+  --line: #D8D2DC;
+  --accent: #8E2C55;
+  --accent-soft: #F3E4EA;
+  --mok: #3F8F5E;
+  --hwa: #C4453C;
+  --to: #A87B24;
+  --geum: #6F7A8B;
+  --su: #2F6B96;
+  --shadow: 0 1px 2px rgba(36,29,40,.06), 0 8px 24px rgba(36,29,40,.06);
+  --serif: "AppleMyungjo", "Nanum Myeongjo", "Batang", "BatangChe", ui-serif, Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Malgun Gothic", "Noto Sans KR", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #16121A;
+    --surface: #1F1A24;
+    --surface-2: #2A2431;
+    --ink: #EEE9F0;
+    --ink-soft: #C7BECC;
+    --muted: #968B9E;
+    --line: #362E3D;
+    --accent: #E084AB;
+    --accent-soft: #3A2130;
+    --mok: #63BC87;
+    --hwa: #E5786F;
+    --to: #D6A748;
+    --geum: #A3AEBE;
+    --su: #62A0CB;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 28px rgba(0,0,0,.34);
+  }
+}
+:root[data-theme="light"] {
+  --ground: #F1EFF2; --surface: #FBFAFC; --surface-2: #E9E5EC;
+  --ink: #241D28; --ink-soft: #4A4050; --muted: #776C7E; --line: #D8D2DC;
+  --accent: #8E2C55; --accent-soft: #F3E4EA;
+  --mok: #3F8F5E; --hwa: #C4453C; --to: #A87B24; --geum: #6F7A8B; --su: #2F6B96;
+  --shadow: 0 1px 2px rgba(36,29,40,.06), 0 8px 24px rgba(36,29,40,.06);
+}
+:root[data-theme="dark"] {
+  --ground: #16121A; --surface: #1F1A24; --surface-2: #2A2431;
+  --ink: #EEE9F0; --ink-soft: #C7BECC; --muted: #968B9E; --line: #362E3D;
+  --accent: #E084AB; --accent-soft: #3A2130;
+  --mok: #63BC87; --hwa: #E5786F; --to: #D6A748; --geum: #A3AEBE; --su: #62A0CB;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 28px rgba(0,0,0,.34);
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--ground); color: var(--ink);
+  font-family: var(--sans); font-size: 16px; line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+.wrap { max-width: 680px; margin: 0 auto; padding: 24px 16px 96px; }
+
+/* ── 머리말 ── */
+.masthead { display: flex; align-items: baseline; gap: 12px; margin-bottom: 20px; }
+.masthead h1 {
+  font-family: var(--serif); font-size: 30px; font-weight: 600;
+  letter-spacing: .06em; margin: 0; line-height: 1.1;
+}
+.masthead .sub { font-size: 12px; color: var(--muted); letter-spacing: .14em; }
+
+/* ── 카드 ── */
+.card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 18px; box-shadow: var(--shadow);
+}
+.stack { display: flex; flex-direction: column; gap: 16px; }
+
+.sect-label {
+  font-size: 11px; letter-spacing: .18em; color: var(--muted);
+  text-transform: uppercase; margin: 0 0 12px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sect-label::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+/* ── 입력 ── */
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field > label { font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.row { display: flex; gap: 10px; }
+.row > * { flex: 1; min-width: 0; }
+
+input[type="number"], input[type="time"] {
+  width: 100%; font: inherit; font-variant-numeric: tabular-nums;
+  padding: 11px 12px; border-radius: 10px; color: var(--ink);
+  border: 1px solid var(--line); background: var(--ground);
+}
+input:focus-visible, button:focus-visible {
+  outline: 2px solid var(--accent); outline-offset: 2px;
+}
+.seg { display: flex; background: var(--ground); border: 1px solid var(--line); border-radius: 10px; padding: 3px; gap: 3px; }
+.seg button {
+  flex: 1; font: inherit; font-size: 15px; padding: 8px 4px; cursor: pointer;
+  border: 0; border-radius: 7px; background: transparent; color: var(--muted);
+}
+.seg button[aria-pressed="true"] { background: var(--surface); color: var(--ink); font-weight: 600; box-shadow: var(--shadow); }
+
+.check { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-soft); cursor: pointer; }
+.check input { width: 17px; height: 17px; accent-color: var(--accent); }
+
+.btn {
+  font: inherit; font-weight: 600; cursor: pointer; border-radius: 11px;
+  padding: 13px 18px; border: 1px solid transparent; width: 100%;
+}
+.btn-primary { background: var(--accent); color: var(--surface); }
+:root[data-theme="dark"] .btn-primary, :root:not([data-theme="light"]) .btn-primary { color: #1A1016; }
+@media (prefers-color-scheme: light) { :root:not([data-theme="dark"]) .btn-primary { color: #FFF; } }
+:root[data-theme="light"] .btn-primary { color: #FFF; }
+.btn-ghost { background: transparent; color: var(--ink-soft); border-color: var(--line); }
+
+.err { color: var(--hwa); font-size: 14px; margin: 0; }
+.hidden { display: none !important; }
+
+/* ── 명식 ── */
+.myeongsik { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.pillar { text-align: center; display: flex; flex-direction: column; gap: 6px; }
+.pillar-head {
+  font-size: 11px; letter-spacing: .1em; color: var(--muted);
+  padding-bottom: 6px; border-bottom: 1px solid var(--line);
+}
+.pillar.is-self .pillar-head { color: var(--accent); font-weight: 700; }
+.glyph {
+  font-family: var(--serif); font-size: clamp(34px, 12vw, 46px);
+  line-height: 1.15; display: block; font-weight: 600;
+}
+.glyph-box { padding: 6px 2px; border-radius: 9px; background: var(--surface-2); }
+.pillar.is-self .glyph-box { background: var(--accent-soft); }
+.ss { font-size: 11px; color: var(--muted); letter-spacing: .02em; }
+.kr { font-size: 12px; color: var(--ink-soft); font-family: var(--serif); letter-spacing: .08em; }
+.oh-mok { color: var(--mok); } .oh-hwa { color: var(--hwa); } .oh-to { color: var(--to); }
+.oh-geum { color: var(--geum); } .oh-su { color: var(--su); }
+
+.summary { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--ink-soft); margin-top: 14px; }
+.summary b { color: var(--ink); font-weight: 600; }
+
+/* ── 오행 ── */
+.ohaeng { display: flex; flex-direction: column; gap: 9px; }
+.oh-row { display: grid; grid-template-columns: 26px 1fr 58px; align-items: center; gap: 10px; }
+.oh-name { font-family: var(--serif); font-size: 19px; font-weight: 600; }
+.oh-track { display: block; height: 9px; border-radius: 5px; background: var(--surface-2); overflow: hidden; }
+.oh-fill { display: block; height: 100%; border-radius: 5px; min-width: 0; }
+.oh-meta { font-size: 12px; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ── 판정 ── */
+.verdict { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.verdict .v { font-family: var(--serif); font-size: 24px; font-weight: 600; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.chip {
+  font-size: 12px; padding: 4px 10px; border-radius: 999px;
+  background: var(--surface-2); color: var(--ink-soft); font-variant-numeric: tabular-nums;
+}
+.chip-on { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.note { font-size: 13px; color: var(--ink-soft); margin: 12px 0 0; line-height: 1.55; }
+
+/* ── 대운 ── */
+.scroller { overflow-x: auto; margin: 0 -18px; padding: 0 18px 4px; -webkit-overflow-scrolling: touch; }
+.daewoon { display: flex; gap: 8px; min-width: min-content; }
+.dw {
+  flex: 0 0 auto; width: 74px; text-align: center; padding: 10px 4px;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--ground);
+}
+.dw.now { border-color: var(--accent); background: var(--accent-soft); }
+.dw .age { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.dw.now .age { color: var(--accent); font-weight: 700; }
+.dw .h { font-family: var(--serif); font-size: 22px; font-weight: 600; line-height: 1.3; }
+.dw .k { font-size: 11px; color: var(--ink-soft); }
+
+/* ── 세운 ── */
+.sewoon { display: flex; align-items: center; gap: 14px; }
+.sewoon .big { font-family: var(--serif); font-size: 38px; font-weight: 600; line-height: 1; }
+
+/* ── 하단 고정 ── */
+.dock {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+  background: color-mix(in srgb, var(--ground) 92%, transparent);
+  backdrop-filter: blur(12px); border-top: 1px solid var(--line);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+}
+.dock-inner { max-width: 680px; margin: 0 auto; display: flex; gap: 8px; }
+.dock .btn { flex: 1; padding: 12px 10px; font-size: 15px; }
+
+.toast {
+  position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%) translateY(8px);
+  background: var(--ink); color: var(--ground); font-size: 14px; font-weight: 600;
+  padding: 10px 18px; border-radius: 999px; opacity: 0; pointer-events: none;
+  transition: opacity .18s ease, transform .18s ease; z-index: 20;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+@media (prefers-reduced-motion: reduce) { .toast { transition: none; } }
+
+#copyFallback textarea {
+  width: 100%; height: 180px; font-family: ui-monospace, Menlo, monospace; font-size: 12px;
+  border: 1px solid var(--line); border-radius: 10px; padding: 10px;
+  background: var(--ground); color: var(--ink);
+}
+.foot { font-size: 12px; color: var(--muted); text-align: center; margin: 28px 0 0; line-height: 1.7; }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <h1>사주도사</h1>
+    <span class="sub">四柱命式</span>
+  </header>
+
+  <div class="stack">
+    <!-- 입력 -->
+    <section class="card" id="inputCard">
+      <h2 class="sect-label">생년월일시</h2>
+      <div class="stack" style="gap:14px">
+        <div class="seg" id="calSeg">
+          <button type="button" data-cal="solar" aria-pressed="true">양력</button>
+          <button type="button" data-cal="lunar" aria-pressed="false">음력</button>
+        </div>
+
+        <div class="row">
+          <div class="field"><label for="y">연</label><input id="y" type="number" inputmode="numeric" placeholder="1990" min="1901" max="2099"></div>
+          <div class="field"><label for="mo">월</label><input id="mo" type="number" inputmode="numeric" placeholder="5" min="1" max="12"></div>
+          <div class="field"><label for="d">일</label><input id="d" type="number" inputmode="numeric" placeholder="15" min="1" max="31"></div>
+        </div>
+
+        <label class="check hidden" id="leapWrap"><input type="checkbox" id="leap">윤달</label>
+
+        <div class="row">
+          <div class="field"><label for="t">출생 시각</label><input id="t" type="time" value="12:00"></div>
+          <div class="field"><label>성별</label>
+            <div class="seg" id="genderSeg">
+              <button type="button" data-g="남" aria-pressed="true">남</button>
+              <button type="button" data-g="여" aria-pressed="false">여</button>
+            </div>
+          </div>
+        </div>
+
+        <label class="check"><input type="checkbox" id="noTime">출생 시각을 모릅니다</label>
+        <p class="err hidden" id="err"></p>
+        <button class="btn btn-primary" id="calcBtn">사주 세우기</button>
+      </div>
+    </section>
+
+    <!-- 결과 -->
+    <div id="result" class="stack hidden"></div>
+  </div>
+
+  <p class="foot">
+    만세력 1901~2099년 · 음력 표기는 2050년까지<br>
+    절기·진태양시 보정 없이 표준시 기준으로 계산합니다
+  </p>
+</div>
+
+<div class="dock hidden" id="dock">
+  <div class="dock-inner">
+    <button class="btn btn-ghost" id="againBtn">다시 입력</button>
+    <button class="btn btn-primary" id="copyBtn">해석 프롬프트 복사</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/*__DATA__*/
+/*__ENGINE__*/
+
+// ===== UI =====
+const OH_CLASS = { "木":"oh-mok", "火":"oh-hwa", "土":"oh-to", "金":"oh-geum", "水":"oh-su" };
+const OH_VAR   = { "木":"--mok", "火":"--hwa", "土":"--to", "金":"--geum", "水":"--su" };
+
+let state = { cal: "solar", gender: "남", saju: null, dict: null };
+const $ = id => document.getElementById(id);
+
+function segBind(segId, key, onSet) {
+  $(segId).addEventListener("click", e => {
+    const btn = e.target.closest("button"); if (!btn) return;
+    [...e.currentTarget.querySelectorAll("button")].forEach(b => b.setAttribute("aria-pressed", String(b === btn)));
+    onSet(btn.dataset[key]);
+  });
+}
+segBind("calSeg", "cal", v => { state.cal = v; $("leapWrap").classList.toggle("hidden", v !== "lunar"); });
+segBind("genderSeg", "g", v => { state.gender = v; });
+
+$("noTime").addEventListener("change", e => { $("t").disabled = e.target.checked; });
+
+function showError(msg) { const el = $("err"); el.textContent = msg; el.classList.remove("hidden"); }
+function clearError() { $("err").classList.add("hidden"); }
+
+function esc(s) { return String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c])); }
+
+function calculate() {
+  clearError();
+  const y = parseInt($("y").value, 10), mo = parseInt($("mo").value, 10), d = parseInt($("d").value, 10);
+  if (!y || !mo || !d) return showError("연·월·일을 모두 입력해 주세요.");
+  if (mo < 1 || mo > 12) return showError("월은 1~12 사이여야 합니다.");
+  if (d < 1 || d > 31) return showError("일은 1~31 사이여야 합니다.");
+
+  const noTime = $("noTime").checked;
+  const [hh, mi] = noTime ? [12, 0] : $("t").value.split(":").map(n => parseInt(n, 10));
+  if (Number.isNaN(hh)) return showError("출생 시각을 입력하거나 ‘모릅니다’를 선택해 주세요.");
+
+  let sy = y, smo = mo, sd = d;
+  try {
+    if (state.cal === "lunar") [sy, smo, sd] = lunarToSolar(y, mo, d, $("leap").checked);
+    const chk = new Date(Date.UTC(sy, smo - 1, sd));
+    if (chk.getUTCMonth() + 1 !== smo || chk.getUTCDate() !== sd) return showError(`${sy}년 ${smo}월에는 ${sd}일이 없습니다.`);
+    state.saju = getSaju(sy, smo, sd, hh, mi, state.gender);
+    state.dict = toDict(state.saju);
+    state.noTime = noTime;
+  } catch (e) { return showError(e.message); }
+
+  render();
+}
+
+function render() {
+  const s = state.saju, b = s.birth;
+  const order = [["hour","시주"], ["day","일주"], ["month","월주"], ["year","년주"]];
+
+  const pillars = order.map(([k, label]) => {
+    const p = s[k], ss = s.sibsung[k];
+    return `<div class="pillar ${k === "day" ? "is-self" : ""}">
+      <div class="pillar-head">${label}</div>
+      <div class="ss">${esc(ss.천간)}</div>
+      <div class="glyph-box"><span class="glyph ${OH_CLASS[p.cgOhaeng]}">${p.cg}</span></div>
+      <div class="glyph-box"><span class="glyph ${OH_CLASS[p.jjOhaeng]}">${p.jj}</span></div>
+      <div class="ss">${esc(ss.지지)}</div>
+      <div class="kr">${esc(p.korean)}</div>
+    </div>`;
+  }).join("");
+
+  const ohaeng = ["木","火","土","金","水"].map(oh => {
+    const a = s.ohaengAnalysis[oh];
+    return `<div class="oh-row">
+      <span class="oh-name ${OH_CLASS[oh]}">${oh}</span>
+      <span class="oh-track"><span class="oh-fill" style="width:${a.count / 8 * 100}%;background:var(${OH_VAR[oh]})"></span></span>
+      <span class="oh-meta">${a.count}개 · ${esc(a.level)}</span>
+    </div>`;
+  }).join("");
+
+  const st = s.strength;
+  const inter = ["천간합","지지충","지지육합","삼합"].flatMap(k =>
+    s.interactions[k].map(it => `<span class="chip">${esc(k)} · ${esc(it.detail || it.pillars)}</span>`));
+
+  const birthYear = parseInt(b.solar.slice(0, 4), 10);
+  const age = s.sewoon.year - birthYear;
+  const dw = s.daewoon.list.map(d => {
+    const now = d.age <= age && age < d.age + 10;
+    return `<div class="dw ${now ? "now" : ""}">
+      <div class="age">${now ? "지금 " : ""}${d.age}세</div>
+      <div class="h"><span class="${OH_CLASS[d.cgOhaeng]}">${d.hanja[0]}</span><span class="${OH_CLASS[d.jjOhaeng]}">${d.hanja[1]}</span></div>
+      <div class="k">${esc(d.korean)}</div>
+    </div>`;
+  }).join("");
+
+  const sw = s.sewoon;
+  const lunarTxt = b.lunar ? `음력 ${esc(b.lunar)}${b.lunarLeap ? " (윤달)" : ""}` : "음력 정보 없음";
+
+  $("result").innerHTML = `
+    <section class="card">
+      <h2 class="sect-label">명식 命式</h2>
+      <div class="myeongsik">${pillars}</div>
+      <div class="summary">
+        <span>양력 <b>${esc(b.solar)} ${esc(b.time)}</b></span>
+        <span>${lunarTxt}</span>
+        <span><b>${esc(b.gender)}</b> · ${esc(s.ddi)}띠</span>
+        <span>일간 <b class="${OH_CLASS[s.ilganOhaeng]}">${s.ilgan}(${esc(s.ilganKr)})</b> ${s.ilganOhaeng}</span>
+      </div>
+      ${state.noTime ? `<p class="note">출생 시각을 모른다고 하셔서 낮 12시로 계산했습니다. 시주(時柱)와 그에 딸린 십성은 실제와 다를 수 있습니다.</p>` : ""}
+    </section>
+
+    <section class="card">
+      <h2 class="sect-label">오행 분포</h2>
+      <div class="ohaeng">${ohaeng}</div>
+    </section>
+
+    <section class="card">
+      <h2 class="sect-label">신강 · 신약</h2>
+      <div class="verdict"><span class="v">${esc(st.strength)}</span><span class="oh-meta">총점 ${st.score}/8</span></div>
+      <div class="chips">
+        <span class="chip ${st.deukryeong ? "chip-on" : ""}">득령 ${st.deukryeong ? "○" : "✕"}</span>
+        <span class="chip">득지 ${st.deukji}/4</span>
+        <span class="chip">득세 ${st.deukse}/3</span>
+      </div>
+      <p class="note">${esc(st.yongsinDesc)}</p>
+    </section>
+
+    <section class="card">
+      <h2 class="sect-label">합 · 충</h2>
+      ${inter.length ? `<div class="chips" style="margin-top:0">${inter.join("")}</div>`
+                     : `<p class="note" style="margin-top:0">특별한 합·충 관계가 없습니다.</p>`}
+    </section>
+
+    <section class="card">
+      <h2 class="sect-label">대운 大運 · ${esc(s.daewoon.direction)} · ${s.daewoon.startAge}세 시작</h2>
+      <div class="scroller"><div class="daewoon">${dw}</div></div>
+    </section>
+
+    <section class="card">
+      <h2 class="sect-label">${sw.year}년 세운</h2>
+      <div class="sewoon">
+        <span class="big"><span class="${OH_CLASS[sw.cgOhaeng]}">${sw.hanja[0]}</span><span class="${OH_CLASS[sw.jjOhaeng]}">${sw.hanja[1]}</span></span>
+        <div>
+          <div style="font-family:var(--serif);letter-spacing:.08em">${esc(sw.korean)}</div>
+          <div class="oh-meta" style="text-align:left">일간 기준 십성 · <b style="color:var(--ink)">${esc(sw.sibsung)}</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card hidden" id="copyFallback">
+      <h2 class="sect-label">아래 내용을 길게 눌러 복사하세요</h2>
+      <textarea readonly></textarea>
+    </section>`;
+
+  $("result").classList.remove("hidden");
+  $("inputCard").classList.add("hidden");
+  $("dock").classList.remove("hidden");
+  const nowEl = document.querySelector(".dw.now");
+  if (nowEl) nowEl.scrollIntoView({ block: "nearest", inline: "center" });
+  window.scrollTo({ top: 0 });
+}
+
+function buildPrompt() {
+  const json = JSON.stringify(state.dict, null, 2);
+  return `당신은 사주명리학 전문가입니다. 다음은 사주팔자 분석 데이터입니다. 이를 바탕으로 종합적인 사주 해석을 해주세요.
+
+해석 원칙:
+1. 일간(日干)을 중심으로 전체 팔자를 해석합니다.
+2. 십성(十星), 오행(五行), 합충(合沖) 관계를 종합적으로 분석합니다.
+3. 현재 대운(大運)과 세운(歲運)이 원국에 미치는 영향을 설명합니다.
+4. 추상적인 이론보다 구체적이고 실생활에 적용 가능한 해석을 제공합니다.
+5. 한국어로 답변합니다.
+
+\`\`\`json
+${json}
+\`\`\`
+
+아래 순서로 해석해 주세요:
+
+1. **사주 총평** — 이 사람의 사주가 가진 전체적인 특성과 기질
+2. **일간 분석** — 일간의 성격, 강점, 주의할 점
+3. **오행·십성 분석** — 오행 분포와 주요 십성이 의미하는 바
+4. **신강/신약과 용신** — 신강신약 판정 근거와 용신·희신 방향
+5. **합충 분석** — 합충이 이 사람의 삶에 미치는 영향
+6. **현재 대운 해석** — 현재 대운이 원국과 어떻게 작용하는지
+7. **${state.dict.세운.연도}년 세운 해석** — 올해의 운세 흐름과 주의사항
+8. **종합 조언** — 이 사주를 가진 사람에게 실질적으로 도움이 되는 조언`;
+}
+
+let toastTimer;
+function toast(msg) {
+  const el = $("toast");
+  el.textContent = msg; el.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove("show"), 1800);
+}
+
+async function copyPrompt() {
+  const text = buildPrompt();
+  try {
+    await navigator.clipboard.writeText(text);
+    toast("복사했습니다 — Claude 앱에 붙여넣으세요");
+    return;
+  } catch (e) { /* 클립보드 접근이 막힌 환경 */ }
+  const box = $("copyFallback");
+  box.classList.remove("hidden");
+  const ta = box.querySelector("textarea");
+  ta.value = text;
+  ta.scrollIntoView({ block: "center", behavior: "smooth" });
+  ta.focus(); ta.select();
+}
+
+$("calcBtn").addEventListener("click", calculate);
+$("copyBtn").addEventListener("click", copyPrompt);
+$("againBtn").addEventListener("click", () => {
+  $("result").classList.add("hidden");
+  $("dock").classList.add("hidden");
+  $("inputCard").classList.remove("hidden");
+  window.scrollTo({ top: 0 });
+});
+["y","mo","d"].forEach(id => $(id).addEventListener("keydown", e => { if (e.key === "Enter") calculate(); }));
+</script>

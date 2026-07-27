@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+web/build/expected.json
+web/build/node_modules/
+web/build/shot-*.png
+사주도사/memory/user_profile.md
