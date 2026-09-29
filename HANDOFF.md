@@ -123,7 +123,7 @@ python3 rfp_map.py render <사업약칭>                               # 재출�
 ## 4. 미결 과제와 다음 단계
 
 1. `run_digest.sh` 증분 실행 검증 (새 CSV 필요).
-2. 슬랙 게시: `slack_msg.py`로 요약 생성까지 완료(run_digest.sh 마지막 단계에 연결). 자동 게시는 사용자가 Incoming Webhook 주소를 `work/slack_webhook.txt`에 넣어야 동작한다. 세션 내 슬랙 커넥터로 본인 DM 시험 게시는 자동 권한 검사에서 거부됨. 게시 채널 미정.
+2. 슬랙 게시: 완료(2026-09-30). 웹후크 주소를 `work/slack_webhook.txt`(권한 600)에 저장했고 시험 게시 응답 200 확인. run_digest.sh 실행마다 요약이 자동 게시된다.
 3. 업무방 추가 시 `--room`으로 구분. 가명 사전은 방끼리 공유된다.
 4. launchd로 주 1회 자동 실행 등록. 단, CSV 내보내기는 사람이 해야 한다.
 5. Desktop Commander `allowedDirectories`를 `/Volumes/DATA/work`로 제한.
