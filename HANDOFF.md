@@ -1,6 +1,6 @@
 # 맥미니 업무 자동화 — 작업 핸드오프
 
-최종 갱신: 2026-09-29 23:10 KST
+최종 갱신: 2026-09-30 00:30 KST
 
 ## 1. 배경과 목표
 
@@ -154,3 +154,23 @@ python3 rfp_map.py render <사업약칭>                               # 재출�
 grok --prompt-file <절대경로> --json-schema "$(cat schema.json)" \
   --output-format json --max-turns 3 --disable-web-search --tools "" --cwd <절대경로>
 ```
+
+## 7. 다음 세션 시작점 (2026-09-30 기준)
+
+사용자가 "작동 방식이 복잡하다"고 해 아래 개선안을 제안했고, 승인 전 상태로 세션을 마쳤다. 다음 세션에서 사용자 확인 후 진행한다.
+
+**권장안: 카톡 정리 폴더 감시 자동 실행**
+- launchd `WatchPaths`로 `/Volumes/DATA/work/kakao-digest/input`을 감시해 새 CSV가 들어오면 run_digest.sh를 자동 실행.
+- 사용자는 카톡 내보내기 저장 위치를 input 폴더로 한 번만 지정하면 이후 "내보내기" 한 번으로 끝난다.
+- 함께 할 일: CSV 파일명에서 방 이름 자동 추출 확인, 같은 파일 중복 처리 방지, 실패 시 슬랙 실패 알림.
+- 대안: 바탕화면 드롭 아이콘(CSV를 끌어다 놓으면 실행).
+- 주의: launchd는 로그인 셸이 아니므로 PATH에 `~/.grok/bin`을 명시하고, DATA 하드 미연결 시 조용히 종료하도록 처리할 것.
+
+**그 밖에 남은 것**
+- hwpx 대응표: 실제 제안서로 match 실행(4절 7·8번).
+- Desktop Commander `allowedDirectories` 제한(4절 5번).
+- 웹후크 주소가 맥미니 클립보드에 남아 있었음. 사용자에게 덮어쓰기를 권함.
+
+**세션 재개 요령**
+- 맥미니 연결 확인: Desktop Commander `list_devices`.
+- 권한 모드는 기본(default)을 권장. 자동 모드에서 Desktop Commander와 슬랙 게시가 거부된 적이 있다.
